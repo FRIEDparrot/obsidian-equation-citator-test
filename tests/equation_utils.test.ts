@@ -4,6 +4,11 @@ import {
     parseFirstEquationInMarkdown 
 } from "@/utils/parsers/equation_parser";
 
+// ==========================================================
+// Some tests here are obsolete, so please don't worry if the content and `contentWithTag` 
+// are not precise matches here. 
+// ================ Unit Tests for Equation Parser Utils =================
+
 describe('isValidEquationPart', () => {
     const validDelimiters = ['.', '-', ':', '_'];
 
