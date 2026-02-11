@@ -3,10 +3,10 @@ import {
     parseAllCalloutsFromMarkdown,
     parseFirstCalloutInMarkdown,
 } from "@/utils/parsers/callout_parser";
-import { QuoteCitationPrefix } from "@/settings/defaultSettings";
+import { CalloutCitationPrefix } from "@/settings/defaultSettings";
 
 // Configure test prefixes
-const testPrefixes: QuoteCitationPrefix[] = [
+const testPrefixes: CalloutCitationPrefix[] = [
     { prefix: "table:", format: "Table. #" },
     { prefix: "thm:", format: "Theorem #" },
     { prefix: "def:", format: "Definition #" },
