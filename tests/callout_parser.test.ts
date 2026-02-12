@@ -24,6 +24,21 @@ describe('parseCalloutCitation', () => {
         expect(callouts[0].tag).toBe('1.1');
         expect(callouts[0].label).toBe('table:1.1');
         expect(callouts[0].prefix).toBe('table:');
+        expect(callouts[0].title).toBeNull();
+    });
+
+    it('should parse callout with title', () => {
+        const markdown = `> [!table:1.1|red]  Table of the Test Columns
+> This is a table callout with a title`;
+
+        const callouts = parseAllCalloutsFromMarkdown(markdown, testPrefixes);
+
+        expect(callouts).toHaveLength(1);
+        expect(callouts[0].type).toBe('table');
+        expect(callouts[0].tag).toBe('1.1');
+        expect(callouts[0].label).toBe('table:1.1');
+        expect(callouts[0].prefix).toBe('table:');
+        expect(callouts[0].title).toBe('Table of the Test Columns');
     });
 
     it('should parse multi-line callout content', () => {
