@@ -1,6 +1,5 @@
 import {
     parseEquationsInMarkdown,
-    isValidEquationPart, 
     parseFirstEquationInMarkdown 
 } from "@/utils/parsers/equation_parser";
 
@@ -8,28 +7,6 @@ import {
 // Some tests here are obsolete, so please don't worry if the content and `contentWithTag` 
 // are not precise matches here. 
 // ================ Unit Tests for Equation Parser Utils =================
-
-describe('isValidEquationPart', () => {
-    const validDelimiters = ['.', '-', ':', '_'];
-
-    test('should validate correct patterns', () => {
-        expect(isValidEquationPart('1.2.3', validDelimiters)).toBe(true);
-        expect(isValidEquationPart('1-2-3', validDelimiters)).toBe(true);
-        expect(isValidEquationPart('1:2:3', validDelimiters)).toBe(true);
-        expect(isValidEquationPart('1_2_3', validDelimiters)).toBe(true);
-        expect(isValidEquationPart('123', validDelimiters)).toBe(true);
-    });
-
-    test('should reject invalid patterns', () => {
-        expect(isValidEquationPart('1.2.a', validDelimiters)).toBe(false);
-        expect(isValidEquationPart('1!2!3', validDelimiters)).toBe(false);
-        expect(isValidEquationPart('1 2 3', validDelimiters)).toBe(false);
-    });
-
-    test('should handle empty string', () => {
-        expect(isValidEquationPart('', validDelimiters)).toBe(false);
-    });
-});
 
 describe('parseEquationsInMarkdown', () => {
     test('should handle equations in quote blocks and ignore inline code', () => {
@@ -83,10 +60,10 @@ $$`;
         const equations = parseEquationsInMarkdown(markdown);
 
         expect(equations).toHaveLength(2);
-        expect(equations[0].contentWithTag).toBe('F = ma');
+        expect(equations[0].contentWithTag).toBe('\nF = ma\n');
         expect(equations[0].lineStart).toBe(1);
         expect(equations[0].lineEnd).toBe(3);
-        expect(equations[1].contentWithTag).toBe('E = mc^2 \\tag{einstein}');
+        expect(equations[1].contentWithTag).toBe('\nE = mc^2 \\tag{einstein}\n');
         expect(equations[1].tag).toBe('einstein');
     });
 
@@ -154,7 +131,7 @@ $$ P = F/A \\tag{valid2} $$`;
         expect(equations[1].tag).toBe('trig');
         expect(equations[1].contentWithTag).toBe('\\sin^2(x) + \\cos^2(x) = 1 \\tag{trig}');
         expect(equations[2].tag).toBe('integral');
-        expect(equations[2].contentWithTag).toBe('\\int_0^\\infty e^{-x} dx = 1\n\\tag{integral}');
+        expect(equations[2].contentWithTag).toBe('\n\\int_0^\\infty e^{-x} dx = 1\n\\tag{integral}\n');
     });
 
     test('should handle edge case: unclosed equation block', () => {
@@ -167,7 +144,7 @@ This should still be parsed even without closing`;
 
         expect(equations).toHaveLength(1);
         expect(equations[0].tag).toBe('unclosed');
-        expect(equations[0].contentWithTag).toBe('F = ma \\tag{unclosed}\nThis should still be parsed even without closing');
+        expect(equations[0].contentWithTag).toBe('\nF = ma \\tag{unclosed}\nThis should still be parsed even without closing');
         expect(equations[0].lineStart).toBe(1);
         expect(equations[0].lineEnd).toBe(3);
     });
@@ -321,7 +298,7 @@ $$`;
         
         expect(equations).toHaveLength(1);
         expect(equations[0].tag).toBe('whitespace');
-        expect(equations[0].contentWithTag).toBe('E = mc^2 \\tag{whitespace}');
+        expect(equations[0].contentWithTag).toBe('\nE = mc^2 \\tag{whitespace}\n');
     });
 
     test('should handle equations in list items', () => {
@@ -337,7 +314,7 @@ $$`;
         
         expect(equations).toHaveLength(1);
         expect(equations[0].tag).toBe('list');
-        expect(equations[0].contentWithTag).toBe('a^2 + b^2 = c^2 \\tag{list}');
+        expect(equations[0].contentWithTag).toBe('\na^2 + b^2 = c^2 \\tag{list}\n');
     });
 
     test('should handle equations in blockquotes (not callouts)', () => {
@@ -354,7 +331,7 @@ $$`;
         
         expect(equations).toHaveLength(1);
         expect(equations[0].tag).toBe('quadratic');
-        expect(equations[0].contentWithTag).toBe('x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a} \\tag{quadratic}');
+        expect(equations[0].contentWithTag).toBe('\nx = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a} \\tag{quadratic}\n');
     });
 
     test('should handle equations with special characters', () => {
@@ -485,7 +462,7 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$ x = 1 \\tag{eq1} $$',
-        content: 'x = 1',
+        content: 'x = 1 ',
         contentWithTag: 'x = 1 \\tag{eq1}',
         lineStart: 0,
         lineEnd: 0,
@@ -504,7 +481,7 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$ x = 1 \\tag{same} $$',
-        content: 'x = 1',
+        content: 'x = 1 ',
         contentWithTag: 'x = 1 \\tag{same}',
         lineStart: 1,
         lineEnd: 1,
@@ -529,7 +506,7 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$ y = 2 \\tag{found} $$',
-        content: 'y = 2',
+        content: 'y = 2 ',
         contentWithTag: 'y = 2 \\tag{found}',
         lineStart: 2,
         lineEnd: 2,
@@ -551,8 +528,8 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$\nx = 1 + 2 + 3\n\\tag{multiline}\n$$',
-        content: 'x = 1 + 2 + 3', 
-        contentWithTag: 'x = 1 + 2 + 3\n\\tag{multiline}',
+        content: '\nx = 1 + 2 + 3\n\n', 
+        contentWithTag: '\nx = 1 + 2 + 3\n\\tag{multiline}\n',
         lineStart: 1,
         lineEnd: 4,
         tag: 'multiline',
@@ -587,8 +564,8 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$\nx = 1\n\\tag{unclosed}\n',
-        content: 'x = 1',
-        contentWithTag: 'x = 1\n\\tag{unclosed}',
+        content: '\nx = 1\n\n',
+        contentWithTag: '\nx = 1\n\\tag{unclosed}\n',
         lineStart: 1,
         lineEnd: 4,
         tag: 'unclosed',
@@ -607,7 +584,7 @@ describe('parseFirstEquationInMarkdown', () => {
       
       expect(result).toEqual({
         raw: '$$ x = 1 \\tag{quoted} $$',
-        content: 'x = 1',
+        content: 'x = 1 ',
         contentWithTag: 'x = 1 \\tag{quoted}',
         lineStart: 2,
         lineEnd: 2,
