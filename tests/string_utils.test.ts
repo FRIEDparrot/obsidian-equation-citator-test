@@ -65,7 +65,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('normal text')).toEqual({
       content: 'normal text',
       quoteDepth: 0,
-      isQuote: false
+      inQuote: false
     });
   });
 
@@ -73,7 +73,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('> quoted text')).toEqual({
       content: 'quoted text',
       quoteDepth: 1,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -81,7 +81,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('>> double quoted')).toEqual({
       content: 'double quoted',
       quoteDepth: 2,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -89,7 +89,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine(' > > spaced quotes ')).toEqual({
       content: 'spaced quotes',
       quoteDepth: 2,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -97,7 +97,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('> [!note] callout text')).toEqual({
       content: '[!note] callout text',
       quoteDepth: 1,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -105,7 +105,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine(' > > [!warning] mixed callout ')).toEqual({
       content: '[!warning] mixed callout',
       quoteDepth: 2,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -113,7 +113,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('')).toEqual({
       content: '',
       quoteDepth: 0,
-      isQuote: false
+      inQuote: false
     });
   });
 
@@ -121,7 +121,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine('>>>')).toEqual({
       content: '',
       quoteDepth: 3,
-      isQuote: true
+      inQuote: true
     });
   });
 
@@ -129,7 +129,7 @@ describe('processQuoteLine', () => {
     expect(processQuoteLine(' > > >  deep quote with text ')).toEqual({
       content: 'deep quote with text',
       quoteDepth: 3,
-      isQuote: true
+      inQuote: true
     });
   });
 });
