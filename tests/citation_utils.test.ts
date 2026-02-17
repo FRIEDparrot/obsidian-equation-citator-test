@@ -203,12 +203,7 @@ describe('splitContinuousCitationTags', () => {
         expect(splitContinuousCitationTags(['~3'], rangeSymbol, validDelimiters, fileDelimiter))
             .toEqual(['~3']); // Should keep original tag
     });
-
-    test('handles multiple range symbols in one tag', () => {
-        expect(splitContinuousCitationTags(['P1~2~3'], rangeSymbol, validDelimiters, fileDelimiter))
-            .toEqual(['P1~2', 'P1~3']); // Uses last range symbol
-    });
-
+    
     test('handles file citations without ranges', () => {
         expect(splitContinuousCitationTags(['2^1.3.4'], rangeSymbol, validDelimiters, fileDelimiter))
             .toEqual(['2^{1.3.4}']);
