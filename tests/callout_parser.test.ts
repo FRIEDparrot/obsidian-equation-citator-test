@@ -133,7 +133,7 @@ Regular text
         expect(callouts[0].content).not.toContain('Regular text');
     });
 
-    it('should ignore callouts with unconfigured prefixes', () => {
+    it('should include callouts with unconfigured prefixes', () => {
         const markdown = `> [!example:1.1]
 > This uses an unconfigured prefix
 
@@ -142,9 +142,11 @@ Regular text
 
         const callouts = parseAllCalloutsFromMarkdown(markdown, testPrefixes);
 
-        expect(callouts).toHaveLength(1);
-        expect(callouts[0].tag).toBe('2.2');
-        expect(callouts[0].type).toBe('table');
+        expect(callouts).toHaveLength(2);
+        expect(callouts[0].tag).toBe('');
+        expect(callouts[0].type).toBe('example:1.1');  // parse all as type
+        expect(callouts[1].tag).toBe('2.2');
+        expect(callouts[1].type).toBe('table');
     });
 
     it('should handle empty prefixes array', () => {
