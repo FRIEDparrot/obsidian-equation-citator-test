@@ -5,10 +5,12 @@ import {
     combineContinuousCitationTags,
     splitContinuousCitationTags,
     parseCitationsInMarkdown,
-    replaceCitationsInMarkdownWithSpan,
-    generateCitationSpans,
     extractAutoCompleteInputTag,
 } from '@/utils/core/citation_utils';
+import {
+    replaceCitationsInMarkdownWithSpan,
+    generateCitationSpans,
+} from '@/export/pdf_export';
 
 describe('combineContinuousCitationTags', () => {
     const rangeSymbol = '~';
@@ -964,6 +966,8 @@ This is another inline math $\\ref{eq:3.1}$.
             expect(result).toContain('<span');
             expect(result).toContain('1.1');
             expect(result).toContain('style=');
+            expect(result).not.toContain('equation-citator-citation');
+            expect(result).not.toContain('data-ec-kind');
         });
 
         test('should generate spans for multiple citations', () => {
@@ -977,6 +981,70 @@ This is another inline math $\\ref{eq:3.1}$.
             const result = generateCitationSpans(['2^1.1'], '^');
             expect(result).toContain('1.1');
             expect(result).toContain('[^2]');
+        });
+
+        test('should generate equation metadata with prefix kind and broad citation class', () => {
+            const result = generateCitationSpans(
+                ['1.1'],
+                '^',
+                ',',
+                '(#)',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'eq',
+                    citationKind: 'equation',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                }
+            );
+
+            expect(result).toContain('class="equation-citator-citation equation-citator-cite-equation"');
+            expect(result).toContain('data-ec-kind="eq"');
+            expect(result).toContain('&quot;file&quot;:null');
+            expect(result).toContain('&quot;tag&quot;:&quot;1.1&quot;');
+        });
+
+        test('should generate figure metadata with prefix kind and figure class', () => {
+            const result = generateCitationSpans(
+                ['2.1'],
+                '^',
+                ',',
+                'Fig. #',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'fig',
+                    citationKind: 'figure',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                }
+            );
+
+            expect(result).toContain('class="equation-citator-citation equation-citator-cite-figure"');
+            expect(result).toContain('data-ec-kind="fig"');
+            expect(result).toContain('Fig.');
+        });
+
+        test('should generate callout metadata with exact callout prefix kind and callout class', () => {
+            const result = generateCitationSpans(
+                ['3.1'],
+                '^',
+                ',',
+                'Table. #',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'table',
+                    citationKind: 'callout',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                }
+            );
+
+            expect(result).toContain('class="equation-citator-citation equation-citator-cite-callout"');
+            expect(result).toContain('data-ec-kind="table"');
+            expect(result).toContain('Table.');
         });
     });
 });
