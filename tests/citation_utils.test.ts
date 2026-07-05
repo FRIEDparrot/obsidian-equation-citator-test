@@ -1019,7 +1019,6 @@ This is another inline math $\\ref{eq:3.1}$.
                     rangeSymbol: null,
                     validDelimiters: ['.', '-'],
                     fileDelimiter: '^',
-                    citationPrefix: 'eq:',
                     crossFilePathByIndex: new Map([['2', 'notes/chapter-2.md']]),
                 }
             );
@@ -1043,7 +1042,6 @@ This is another inline math $\\ref{eq:3.1}$.
                     rangeSymbol: null,
                     validDelimiters: ['.', '-'],
                     fileDelimiter: '^',
-                    citationPrefix: 'eq:',
                     crossFilePathByIndex: new Map([['1', 'Equation-Citator-Tutorial/Useful Tricks & techniques.md']]),
                 }
             );
