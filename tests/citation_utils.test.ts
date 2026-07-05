@@ -1019,6 +1019,7 @@ This is another inline math $\\ref{eq:3.1}$.
                     rangeSymbol: null,
                     validDelimiters: ['.', '-'],
                     fileDelimiter: '^',
+                    citationPrefix: 'eq:',
                     crossFilePathByIndex: new Map([['2', 'notes/chapter-2.md']]),
                 }
             );
@@ -1027,6 +1028,30 @@ This is another inline math $\\ref{eq:3.1}$.
             expect(result).toContain('&quot;crossFile&quot;:&quot;2&quot;');
             expect(result).toContain('&quot;tag&quot;:&quot;1.1&quot;');
             expect(result).toContain('[^2]');
+        });
+
+        test('should remove citation prefix from exported metadata tag', () => {
+            const result = generateCitationSpans(
+                ['1^eq:M1'],
+                '^',
+                ',',
+                '(#)',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'eq',
+                    citationKind: 'equation',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                    citationPrefix: 'eq:',
+                    crossFilePathByIndex: new Map([['1', 'Equation-Citator-Tutorial/Useful Tricks & techniques.md']]),
+                }
+            );
+
+            expect(result).toContain('&quot;file&quot;:&quot;Equation-Citator-Tutorial/Useful Tricks &amp; techniques.md&quot;');
+            expect(result).toContain('&quot;crossFile&quot;:&quot;1&quot;');
+            expect(result).toContain('&quot;tag&quot;:&quot;M1&quot;');
+            expect(result).not.toContain('&quot;tag&quot;:&quot;eq:M1&quot;');
         });
 
         test('should keep cross-file index when export metadata path is unresolved', () => {
