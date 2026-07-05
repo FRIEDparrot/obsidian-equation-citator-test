@@ -1048,8 +1048,8 @@ This is another inline math $\\ref{eq:3.1}$.
 
             expect(result).toContain('&quot;file&quot;:&quot;Equation-Citator-Tutorial/Useful Tricks &amp; techniques.md&quot;');
             expect(result).toContain('&quot;crossFile&quot;:&quot;1&quot;');
-            expect(result).toContain('&quot;tag&quot;:&quot;M1&quot;');
-            expect(result).not.toContain('&quot;tag&quot;:&quot;eq:M1&quot;');
+            expect(result).toContain('&quot;tag&quot;:&quot;eq:M1&quot;');
+            expect(result).not.toContain('&quot;tag&quot;:&quot;M1&quot;');
         });
 
         test('should keep cross-file index when export metadata path is unresolved', () => {
