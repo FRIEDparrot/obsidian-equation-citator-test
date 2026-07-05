@@ -1002,7 +1002,53 @@ This is another inline math $\\ref{eq:3.1}$.
             expect(result).toContain('class="equation-citator-citation equation-citator-cite-equation"');
             expect(result).toContain('data-ec-kind="eq"');
             expect(result).toContain('&quot;file&quot;:null');
+            expect(result).toContain('&quot;crossFile&quot;:null');
             expect(result).toContain('&quot;tag&quot;:&quot;1.1&quot;');
+        });
+
+        test('should store resolved file path and cross-file index in export metadata', () => {
+            const result = generateCitationSpans(
+                ['2^1.1'],
+                '^',
+                ',',
+                '(#)',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'eq',
+                    citationKind: 'equation',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                    crossFilePathByIndex: new Map([['2', 'notes/chapter-2.md']]),
+                }
+            );
+
+            expect(result).toContain('&quot;file&quot;:&quot;notes/chapter-2.md&quot;');
+            expect(result).toContain('&quot;crossFile&quot;:&quot;2&quot;');
+            expect(result).toContain('&quot;tag&quot;:&quot;1.1&quot;');
+            expect(result).toContain('[^2]');
+        });
+
+        test('should keep cross-file index when export metadata path is unresolved', () => {
+            const result = generateCitationSpans(
+                ['3^1.2'],
+                '^',
+                ',',
+                '(#)',
+                { citationColorInPdf: '#123456' },
+                {
+                    kind: 'eq',
+                    citationKind: 'equation',
+                    rangeSymbol: null,
+                    validDelimiters: ['.', '-'],
+                    fileDelimiter: '^',
+                    crossFilePathByIndex: new Map([['2', 'notes/chapter-2.md']]),
+                }
+            );
+
+            expect(result).toContain('&quot;file&quot;:null');
+            expect(result).toContain('&quot;crossFile&quot;:&quot;3&quot;');
+            expect(result).toContain('&quot;tag&quot;:&quot;1.2&quot;');
         });
 
         test('should generate figure metadata with prefix kind and figure class', () => {
