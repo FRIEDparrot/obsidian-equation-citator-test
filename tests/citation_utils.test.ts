@@ -776,11 +776,15 @@ describe('Citation Utils Tests', () => {
             const markdown = 'This is $\\ref{eq:1.1}$ a test.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             expect(result).toContain('<span');
@@ -792,11 +796,15 @@ describe('Citation Utils Tests', () => {
             const markdown = 'This is $\\ref{eq:1.1, 1.2, 1.3}$ a test.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             expect(result).toContain('<span');
@@ -808,11 +816,15 @@ describe('Citation Utils Tests', () => {
             const markdown = 'This is `$\\ref{eq:1.1}$` in code.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             expect(result).toBe(markdown); // Should remain unchanged
@@ -823,11 +835,15 @@ describe('Citation Utils Tests', () => {
             const markdown = 'Note if we enable the continuous citation, the equation write in a continuous sequence will also be rendered continuously. For example, `$\\ref{eq:1.3.1, 1.3.2, 1.3.3}` will be rendered as $\\ref{eq:1.3.1, 1.3.2, 1.3.3}$.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             // The citation in backticks should remain unchanged
@@ -852,11 +868,15 @@ This is normal text with $\\ref{eq:3.1}$.
 `;
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             // Should replace citations outside code blocks
@@ -880,11 +900,15 @@ This is another inline math $\\ref{eq:3.1}$.
 `;
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             // Should replace inline math citations
@@ -897,11 +921,15 @@ This is another inline math $\\ref{eq:3.1}$.
             const markdown = 'This is $\\ref{eq:1.1} $ and $ \\ref{eq:2.1}$ test.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             // Should not replace citations with leading/trailing spaces
@@ -914,11 +942,15 @@ This is another inline math $\\ref{eq:3.1}$.
             const markdown = 'This is $\\ref{eq:1.1} \\ref{eq:2.1}$ test.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             // Should not replace when multiple \ref{} in same expression
@@ -929,11 +961,13 @@ This is another inline math $\\ref{eq:3.1}$.
             const markdown = 'This is $\\ref{eq:2^1.1}$ a cross-file citation.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                defaultSettings.rangeSymbol,
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: defaultSettings.rangeSymbol,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                }
             );
 
             expect(result).toContain('<span');
@@ -945,11 +979,15 @@ This is another inline math $\\ref{eq:3.1}$.
             const markdown = 'This is $\\ref{eq:1.1, 1.2, 1.3}$ a test.';
             const result = replaceCitationsInMarkdownWithSpan(
                 markdown,
-                defaultSettings.prefix,
-                null, // Disable continuous citations
-                defaultSettings.validDelimiters,
-                defaultSettings.fileDelimiter,
-                defaultSettings.multiCitationDelimiter
+                {
+                    prefix: defaultSettings.prefix,
+                    rangeSymbol: null,
+                    validDelimiters: defaultSettings.validDelimiters,
+                    fileDelimiter: defaultSettings.fileDelimiter,
+                    multiCitationDelimiter: defaultSettings.multiCitationDelimiter,
+                    citationFormat: '(#)',
+                    spanStyles: {},
+                }
             );
 
             expect(result).toContain('<span');
