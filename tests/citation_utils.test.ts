@@ -10,6 +10,7 @@ import {
 import {
     replaceCitationsInMarkdownWithSpan,
     generateCitationSpans,
+    makePrintMarkdown,
 } from '@/export/pdf_export';
 
 describe('combineContinuousCitationTags', () => {
@@ -1152,6 +1153,33 @@ This is another inline math $\\ref{eq:3.1}$.
             expect(result).toContain('class="equation-citator-citation equation-citator-cite-callout"');
             expect(result).toContain('data-ec-kind="table"');
             expect(result).toContain('Table.');
+        });
+
+        test('should use only the text before the first colon for exported metadata kind', () => {
+            const result = makePrintMarkdown(
+                'This is $\\ref{eq:sub:1.1}$ a test.',
+                {
+                    enableContinuousCitation: true,
+                    continuousRangeSymbol: '~',
+                    enableCrossFileCitation: true,
+                    fileCiteDelimiter: '^',
+                    citationColorInPdf: '#123456',
+                    continuousDelimiters: '. -',
+                    injectCitationMetadataInExportedMarkdown: true,
+                    citationPrefix: 'eq:sub:',
+                    multiCitationDelimiter: ',',
+                    citationFormat: '(#)',
+                    figCitationPrefix: 'fig:',
+                    figCitationFormat: 'Fig. #',
+                    calloutCitationPrefixes: [],
+                    addImageCaptionsInPdf: false,
+                    addImageDescInPdf: false,
+                    keepImageSpacingForPdf: false,
+                } as any
+            );
+
+            expect(result).toContain('data-ec-kind="eq"');
+            expect(result).not.toContain('data-ec-kind="eq:sub"');
         });
     });
 });
