@@ -185,6 +185,25 @@ $$`;
                 { line: 6, ch: 0 }
             );
         });
+
+        it('should NOT skip first line when the opening blank line trims to a single content line', () => {
+            mockPlugin.settings.skipFirstlineInBoxedFilter = true;
+            const content = `$$
+
+p = mv
+$$`;
+            mockEditor.getValue.mockReturnValue(content);
+            mockEditor.getCursor.mockReturnValue({ line: 2, ch: 2 } as EditorPosition);
+
+            const { boxSelectedEquation } = require('@/func/equations_helper');
+            boxSelectedEquation(mockPlugin);
+
+            expect(mockEditor.replaceRange).toHaveBeenCalledWith(
+                '\\boxed{p = mv}\n',
+                { line: 2, ch: 0 },
+                { line: 3, ch: 0 }
+            );
+        });
     });
 
     describe('Single-line equations in quotes', () => {
